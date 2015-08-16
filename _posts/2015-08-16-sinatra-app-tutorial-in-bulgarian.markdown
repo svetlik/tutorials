@@ -153,6 +153,8 @@ end
 >
 > Обърнете внимание на цикъла с `each`. Обяснете откъде идват стойностите на променливите `place_id` и `place_name`.
 >
+> Обяснете разликата между ERB таговете `<% %>` (control) и `<%= %>` (output).
+>
 > Ако е нужно, споменете, че `CHOICES` е константа и че това е необходимо, за да може да е с глобална видимост и да се "вижда" и в изгледа.
 
 ### Предаване на променливи към изгледите
@@ -239,37 +241,35 @@ end
 
 ### Показване на резултатите
 
-Paste the following code into `voter.rb`:
+Добавете следния код във вашето приложение, във `voter.rb`:
 
 {% highlight ruby %}
 get '/results' do
-  @votes = { 'waw' => 7, 'krk' => 5 }
+  @votes = { 'happy' => 7, 'sun-moon' => 5 }
   erb :results
 end
 {% endhighlight %}
 
-Create a new file in the `views` directory, called `results.erb`.
+Създайте и нов шаблон за изглед в папката `views`, който кръстете `results.erb`:
 
 {% highlight erb %}
 <table class='table table-hover table-striped'>
-  <% CHOICES.each do |id, text| %>
+  <% CHOICES.each do |place_id, place_name| %>
     <tr>
-      <th><%= text %></th>
-      <td><%= @votes[id] || 0 %>
-      <td><%= '#' * (@votes[id] || 0) %></td>
+      <th><%= place_name %></th>
+      <td><%= @votes[place_id] || 0 %>
+      <td><%= '#' * (@votes[place_id] || 0) %></td>
     </tr>
   <% end %>
 </table>
-<p><a href='/'>Cast more votes!</a></p>
+<p><a href='/'>Гласувайте още</a></p>
 {% endhighlight %}
 
-Run `ruby voter.rb`, check
-your results and quit the server with `ctrl-c`.
+Стартирайте отново приложението с `ruby voter.rb -p 5000 -o 0.0.0.0` и проверете дали ще може да видите резултатите.
 
-__COACH__: Explain HTML tables and how how the
-missing values from the hash default to zero.
-
-
+> **Инструктор:**
+>
+> Обяснете как работят таблиците в HTML. Обяснете как липсващите стойности от речника се броят като нула. Обяснете как така умножаваме текстов низ по число и какъв е резултатът. Припомнете `each` и речници. Обърнете внимание на алтернативното подреждане на елементи в речника (на един ред).
 
 ### Persist the results using YAML::Store
 
