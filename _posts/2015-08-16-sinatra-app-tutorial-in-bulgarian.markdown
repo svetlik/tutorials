@@ -76,26 +76,27 @@ end
 
 За да спрете приложението си, натиснете клавишната комбинация `ctrl-c`, когато фокусът ви е в терминала.
 
-### Add the index view
+### Добавяне на `index` страница
 
-To keep everything in order let’s make
-a directory for our views (and name it `views`).
+__Инструктор__: Обяснете защо избираме точно името "index". Обяснете концепцията за шаблони (templates), още наричани "изгледи". Защо има нужда от това? Обяснете какво е ERB (embedded Ruby) и как става вмъкването на логика (Ruby) в изгледа и как HTML-ът се "динамизира". Споменете за това, че има и други начини за генериране на HTML от шаблони (например, [Slim](http://slim-lang.com/), [HAML](http://haml.info/) и други).
 
-Put this code into an `index.erb` file in the `views` directory:
+За да държим нещата подредени, ще направим папка, в която ще слагаме файловете на нашите "изгледи". Ще я кръстим "views" (логично, нали?)
+
+Сложете следния код във файл, който се казва `index.erb` и се намира в папката `views`:
 
 {% highlight erb %}
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset='UTF-8' />
-    <title>Voter</title>
+    <title>Машина за гласуване</title>
     <link href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css' rel='stylesheet' />
   </head>
   <body class='container'>
-    <p>What's for dinner?</p>
+    <p>Къде да обядваме?</p>
     <form action='cast' method='post'>
       <ul class='unstyled'>
-        <% Choices.each do |id, text| %>
+        <% CHOICES.each do |id, text| %>
           <li>
             <label class='radio'>
               <input type='radio' name='vote' value='<%= id %>' id='vote_<%= id %>' />
@@ -104,24 +105,27 @@ Put this code into an `index.erb` file in the `views` directory:
           </li>
         <% end %>
       </ul>
-      <button type='submit' class='btn btn-primary'>Cast this vote!</button>
+      <button type='submit' class='btn btn-primary'>Гласувай!</button>
     </form>
   </body>
 </html>
 {% endhighlight %}
 
-And into `voter.rb`:
+И добавете следния код във `voter.rb`:
 
 {% highlight ruby %}
-Choices = {
-  'HAM' => 'Hamburger',
-  'PIZ' => 'Pizza',
-  'CUR' => 'Curry',
-  'NOO' => 'Noodles',
+CHOICES = {
+  'happy'        => 'Happy',
+  'divaka'       => 'Дивака',
+  'krivoto'      => 'Кривото',
+  'ugo'          => 'Уго',
+  'mr-pizza'     => 'Мистър Пица',
+  'sun-moon'     => 'Слънце луна',
+  'soul-kitchen' => 'Soul Kitchen',
 }
 {% endhighlight %}
 
-Change the `get` action:
+Промете секцията с `get` действието така:
 
 {% highlight ruby %}
 get '/' do
@@ -129,13 +133,11 @@ get '/' do
 end
 {% endhighlight %}
 
-Run `ruby voter.rb`, check your
-results and quit the server with `ctrl-c`.
+Проверете дали всичко е наред, като пуснете отново вашето приложение с `ruby voter.rb -p 5000 -o 0.0.0.0`. Знаете ли, че в терминала имате история на последно изпълнените команди? Стрелките нагоре и надолу ви движат по тази история, когато в момента няма работеща команда там.
 
-__COACH__: Talk a little about HTML and erb. Explain
-templates. Explain what global constants are.
+Очакваният резултат е списък с места за обяд, под формата на радио бутони и бутон "Гласувай!".
 
-
+__COACH__: Обяснете концепцията на типа данни "речник" (хеш). Обяснете защо HTML-ът, който сложихме в изгледа, се генерира от приложението ни (ако е нужно, покажете документацията на Sinatra, секцията за изгледи). Проверете в браузъра как изглежда вече генерирания HTML, за да се види разликата между шаблон и резултат.
 
 ### Templates
 
@@ -187,7 +189,7 @@ and put there some HTML with embedded Ruby code:
   </head>
   <body class='container'>
     <h1><%= @title %></h1>
-    <p>You cast: <%= Choices[@vote] %></p>
+    <p>You cast: <%= CHOICES[@vote] %></p>
     <p><a href='/results'>See the results!</a></p>
   </body>
 </html>
@@ -241,7 +243,7 @@ Create a new file in the `views` directory, called `results.erb`.
 
 {% highlight erb %}
 <table class='table table-hover table-striped'>
-  <% Choices.each do |id, text| %>
+  <% CHOICES.each do |id, text| %>
     <tr>
       <th><%= text %></th>
       <td><%= @votes[id] || 0 %>
@@ -262,7 +264,7 @@ missing values from the hash default to zero.
 
 ### Persist the results using YAML::Store
 
-Time for something new! Let’s store our choices.
+Time for something new! Let’s store our CHOICES.
 
 Add the following to the top of `voter.rb`:
 
