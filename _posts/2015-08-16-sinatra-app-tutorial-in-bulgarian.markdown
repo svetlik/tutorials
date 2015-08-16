@@ -4,48 +4,77 @@ title: Rails Girls приложение със Sinatra
 permalink: sinatra-app-bg
 ---
 
-# Създайте сайт за гласуване със Sinatra
+# Уеб сайт с Ruby и Sinatra в Nitrous.io
 
 *Базирано на [това ръководство](http://guides.railsgirls.com/sinatra-app/) от Piotr Szotkowski, [@chastell](https://twitter.com/chastell)*
 
-We will create a little voting app from scratch using a web development framework for Ruby called Sinatra, which is much like Ruby on Rails. Just another tool to get the job done really, and a fun one too!
+Ръководството по-долу прави предположението, че имате регистрация в [Nitrous.io](https://nitrous.io).
 
-Imagine your group of friends is figuring out what to order for your weekly movie watching marathon. With the many fast food options out there, this can become quite a discussion. This is where our app comes into play!
+## In HTML we trust - статичен сайт
 
-__COACH__: Explain shortly what [Sinatra](http://www.sinatrarb.com) is.
+HTML е основният градивен блок на сайтовете. Преди да се занимаем с това приложение, ще покрием основни понятия в HTML и CSS с помощта на вашия инструктор.
 
-## Install Sinatra
+Създайте семпла страничка, която да играе ролята на ваша визитка, като следвате напътствията на инструктора. Може да видите [една примерна такава тук](http://railsgirls.hno3.org/dimitar). Знаете ли, че можете да разгледате HTML и CSS кода на всеки сайт? Питайте вашия инструктор как.
 
-Remember how we needed to install Ruby on Rails? Similarly we need to install Sinatra:
+**Бонус ниво**, ако ви остане време тук, или в края на събитието. Направете си безплатен профил в [GitHub](https://github.com) и използвайте [това ръководство](https://pages.github.com/), за да публикувате току-що създадения си сайт-визитка онлайн, на безплатния хостинг на GitHub за статични страници. Ако потребителското ви име е radostina, то сайтът ви трябва да се намира на адрес [https://radostina.github.io](https://radostina.github.io).
+
+## Динамичен сайт - за гласуване
+
+След като сме се позабавлявали малко с HTML и CSS, е време да направим слеващата и важна стъпка – да напишем софтуер, който да създав HTML код вместо нас – и динамично.
+
+Ще създадем малко приложение за гласуване. Ще го напишем от нулата с помощта на помощна библиотека за правене на уеб сайтове с Ruby, която се казва Sinatra. Sinatra е просто един от възможните инструменти, които можем да ползваме. Има и други, разбира се. Sinatra е сравнително компактна и семпла библиотека, която въпреки простотата си има много възможности.
+
+Представете си, че планирате обяд с група приятели. Понякога изборът на място, от което максимално много хора да са доволни, е трудна задача. Програмистите обичаме да си създаваме инструменти, които да ни помагат с решаването на трудни задачи. Това ще е целта и на нашето приложение за гласуване.
+
+__Инструктор__: Обяснете накратко какво е [Sinatra](http://www.sinatrarb.com), какво е "библиотека"/"framework" и защо съществува това групиране на софтуер.
+
+## Инсталиране на Sinatra
+
+Първо се налага да инсталираме библиотеката Sinatra, която ще иползваме:
 
 `gem install sinatra`
 
-### Create your first Sinatra app
+## Помощ (документация) за Sinatra
 
-Create a `suffragist.rb` file with the following contents:
+След като сме си инсталирали библиотеката, идва моментът да я използваме. По-долу ще ви даваме необходимия код, който да изпълните стъпка по стъпка, но ако някъде искате да се отклоните от примерите, или ударите на проблем, ще ви е необходима консултация с ръководството (документацията) на библиотеката Sinatra.
+
+Тази документация се намира на адрес: <http://www.sinatrarb.com/intro.html>
+
+Умението да се намира правилната документация и да се чете е много важно и често подценявано.
+
+### Създайте своето първо Sinatra приложение
+
+За да започнем нашето приложение, ще създадем една папка в Nitrous средата. Може да я кръстите както искате. Това може да стане както от дървото с папки и файлове, като кликнете с дясно копче върху "кореновата" папка `nitrous`, така и от терминала (конзолата), с командата `mkdir име_на_папката`. Попитайте инструктора си за обяснение за тези команди.
+
+След като създадете папката, трябва да я направите "активна", като "влезете" в нея. В терминала това става с командата `cd име_на_папката` (съкращение от "change directory").
+
+Когато сте в правилната директория, трябва да създадете един файл там. Отново може и от терминала, с `touch voter.rb`, и с дясно копче върху дървото с файлове. Файлът може да се казва `voter.rb` и да е със следното съдържание:
 
 {% highlight ruby %}
 require 'sinatra'
 
 get '/' do
-  'Hello, voter!'
+  'Здравей, гласоподавателю!'
 end
 {% endhighlight %}
 
+В този Ruby файл ще се намира кодът (логиката) на вашето приложение. Можете да кръстите Ruby файла с каквото име желаете. `voter.rb` е просто примерно такова.
 
-You can actually call your Ruby file whatever you'd like. `vote.rb` for instance would totally work as well, when used consistently. But [suffragist](http://www.vocabulary.com/dictionary/suffragist) actually references to a super important event in the women's rights movement, so let's just go with that for now!
+### Стартиране на приложението
 
+От директорията, съдържаща създадения по-горе файл, изпълнете следната команда:
 
-### Run your app
+    ruby voter.rb -p 5000 -o 0.0.0.0
 
-Go to the directory where you put your app and run `ruby suffragist.rb`.
-Now you can visit [localhost:4567](http://localhost:4567). You should
-see a ‘Hello, voter!’ page, which means that the generation of your new
-app worked correctly. Hit `ctrl-c` in the terminal to quit the server.
+Ще видите да се появяват съобщения на екрана. След няколко секунди, приложението ви би трябвало да е заредило напълно и да е готово да обслужва потребители.
 
-__COACH__: Explain POST and GET methods, and how to communicate with the browser.
+За да видите резултата, от менюто "Preview" изберете "Port 5000". В нов раздел на браузъра би трябвало да ви се отвори временен URL адрес, на който да видите текста "Здравей, гласоподавателю!". Ако там пише нещо друго, помолете инструктора си за помощ.
 
+Забележка: Този URL, на който се зарежда вашето приложение, може да бъде зареден от всеки човек по света, но е временен и ще спре да е активен, ако си спрете приложението, или си затворите браузъра, излизайки от профила си в Nitrous.
 
+За да правим промени по приложението, се налага да го спираме.
+
+За да спрете приложението си, натиснете клавишната комбинация `ctrl-c`, когато фокусът ви е в терминала.
 
 ### Add the index view
 
@@ -59,7 +88,7 @@ Put this code into an `index.erb` file in the `views` directory:
 <html>
   <head>
     <meta charset='UTF-8' />
-    <title>Suffragist</title>
+    <title>Voter</title>
     <link href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css' rel='stylesheet' />
   </head>
   <body class='container'>
@@ -81,7 +110,7 @@ Put this code into an `index.erb` file in the `views` directory:
 </html>
 {% endhighlight %}
 
-And into `suffragist.rb`:
+And into `voter.rb`:
 
 {% highlight ruby %}
 Choices = {
@@ -100,7 +129,7 @@ get '/' do
 end
 {% endhighlight %}
 
-Run `ruby suffragist.rb`, check your
+Run `ruby voter.rb`, check your
 results and quit the server with `ctrl-c`.
 
 __COACH__: Talk a little about HTML and erb. Explain
@@ -123,7 +152,7 @@ Change the `get` action:
 
 {% highlight ruby %}
 get '/' do
-  @title = 'Welcome to the Suffragist!'
+  @title = 'Welcome to the Voter!'
   erb :index
 end
 {% endhighlight %}
@@ -135,7 +164,7 @@ how Sinatra makes them visible in the views.
 
 ### Add the ability to POST results
 
-Put this into `suffragist.rb`:
+Put this into `voter.rb`:
 
 {% highlight ruby %}
 post '/cast' do
@@ -153,7 +182,7 @@ and put there some HTML with embedded Ruby code:
 <html>
   <head>
     <meta charset='UTF-8' />
-    <title>Suffragist</title>
+    <title>Voter</title>
     <link href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css' rel='stylesheet' />
   </head>
   <body class='container'>
@@ -179,7 +208,7 @@ directory. Put the following in there:
 <html>
   <head>
     <meta charset='UTF-8' />
-    <title>Suffragist</title>
+    <title>Voter</title>
     <link href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css' rel='stylesheet' />
   </head>
   <body class='container'>
@@ -199,7 +228,7 @@ out common code work in general. Explain what `yield` does.
 
 ### Add the results route and the results view
 
-Paste the following code into `suffragist.rb`:
+Paste the following code into `voter.rb`:
 
 {% highlight ruby %}
 get '/results' do
@@ -223,7 +252,7 @@ Create a new file in the `views` directory, called `results.erb`.
 <p><a href='/'>Cast more votes!</a></p>
 {% endhighlight %}
 
-Run `ruby suffragist.rb`, check
+Run `ruby voter.rb`, check
 your results and quit the server with `ctrl-c`.
 
 __COACH__: Explain HTML tables and how how the
@@ -235,13 +264,13 @@ missing values from the hash default to zero.
 
 Time for something new! Let’s store our choices.
 
-Add the following to the top of `suffragist.rb`:
+Add the following to the top of `voter.rb`:
 
 {% highlight ruby %}
 require 'yaml/store'
 {% endhighlight %}
 
-Add some more code into `suffragist.rb` – replace
+Add some more code into `voter.rb` – replace
 `post '/cast'` and `get '/results'` with the following:
 
 {% highlight ruby %}
@@ -278,8 +307,6 @@ opportunity to search the Internet for a solution. They don’t
 have to know everything about killing processes to find a solution.
 
 __COACH__: In the end explain shortly the differences between Sinatra and Rails.
-
-
 
 ## Play with the app
 
