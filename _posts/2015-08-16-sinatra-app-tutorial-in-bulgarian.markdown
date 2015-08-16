@@ -78,6 +78,12 @@ end
 
 За да спрете приложението си, натиснете клавишната комбинация `ctrl-c`, когато фокусът ви е в терминала.
 
+> **Инструктор:**
+>
+> Обяснете накратко, че кодът около `get` се грижи да посрещне заявките до `/` към нашето приложение и да върне отговор и че това, което пише вътре в низа, е това, което ще се покаже в браузъра на потребителя.
+>
+> Споменете накратко за `HTTP`, `GET`, `POST` и как информацията пътува между браузъра и сървъра (request -> response). По-долу ще стане въпрос отново за `GET` и `POST`.
+
 ### Добавяне на `index` страница
 
 > **Инструктор:**
@@ -149,78 +155,73 @@ end
 >
 > Ако е нужно, споменете, че `CHOICES` е константа и че това е необходимо, за да може да е с глобална видимост и да се "вижда" и в изгледа.
 
-### Шаблони (templates)
+### Предаване на променливи към изгледите
 
-Adjust the `index.erb` file in the `views`
-directory and add the `<h1>…</h1>` line:
+Променете `index.erb` файла в папката `views`, за да добавите `<h1>…</h1>` тагове:
 
 {% highlight erb %}
   <body class='container'>
     <h1><%= @title %></h1>
-    <p>What's for dinner?</p>
+    <p>Къде да обядваме?</p>
 {% endhighlight %}
 
-Change the `get` action:
+Променете и `get` действието по следния начин:
 
 {% highlight ruby %}
 get '/' do
-  @title = 'Welcome to the Voter!'
+  @title = 'Добре дошли в машината за гласуване!'
   erb :index
 end
 {% endhighlight %}
 
-__COACH__: Explain what instance variables are and
-how Sinatra makes them visible in the views.
+> **Инструктор:**
+>
+> Споменете накратко, че `@title` е инстанционна променлива и че това е начин да се предават стойности (променливи) от "действието" (`get`) към шаблона на изгледа (`index.erb`). Формално, причината това да работи е, че в Sinatra и действието, и изгледите се оценяват в контекста на един и същи Ruby обект. Не е нужно да се говори за обекти и класове.
 
+### Добавяне на възможност за изпращане на резултатите като POST
 
-
-### Add the ability to POST results
-
-Put this into `voter.rb`:
+Добавете следното във `voter.rb`:
 
 {% highlight ruby %}
 post '/cast' do
-  @title = 'Thanks for casting your vote!'
+  @title = 'Благодарим за вашия глас!'
   @vote  = params['vote']
   erb :cast
 end
 {% endhighlight %}
 
-Create a new file in the `views` directory, `cast.erb`,
-and put there some HTML with embedded Ruby code:
+Създайте нов файл в папката с изгелди `views`, който се казва `cast.erb`. В него сложете следния HTML и ERB код:
 
 {% highlight erb %}
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset='UTF-8' />
-    <title>Voter</title>
+    <title>Машина за гласуване</title>
     <link href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css' rel='stylesheet' />
   </head>
   <body class='container'>
     <h1><%= @title %></h1>
-    <p>You cast: <%= CHOICES[@vote] %></p>
-    <p><a href='/results'>See the results!</a></p>
+    <p>Вашият глас: <%= CHOICES[@vote] %></p>
+    <p><a href='/results'>Вижте резултатите!</a></p>
   </body>
 </html>
 {% endhighlight %}
 
-__COACH__: Explain how POST works. How to catch what
-was sent in the form? Where do `params` come from?
+> **Инструктор:**
+>
+> Обяснете как работи `POST`. Откъде идват нещата в `params`? Как се съпоставят полетата във формуляра с нещата в `params`? Как можем да ги използваме? Защо изобщо има различни HTTP методи като GET (read-only) и POST (променя неща на сървъра)?
 
+### Изнесете общия код в layout
 
-
-### Factor out a common layout
-
-Create a `layout.erb` file in the `views`
-directory. Put the following in there:
+Създайте файл `layout.erb` в папката с изгледите `views`. Сложете там следния код:
 
 {% highlight erb %}
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset='UTF-8' />
-    <title>Voter</title>
+    <title>Машина за гласуване</title>
     <link href='//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css' rel='stylesheet' />
   </head>
   <body class='container'>
@@ -230,15 +231,13 @@ directory. Put the following in there:
 </html>
 {% endhighlight %}
 
-Remove the above part from the other two templates
-(`index.erb` and `cast.erb` in the `views` directory).
+След това махнете вече дублиращите се общи части с HTML от другите два шаблона (`index.erb` и `cast.erb`).
 
-__COACH__: Talk about the structure of HTML documents and how factoring
-out common code work in general. Explain what `yield` does.
+> **Инструктор:**
+>
+> Обяснете защо се прави тази операция. Разяснете, че другите изгледи се вмъкват на мястото на `yield` и не е нужно да носят информация за общия layout.
 
-
-
-### Add the results route and the results view
+### Показване на резултатите
 
 Paste the following code into `voter.rb`:
 
