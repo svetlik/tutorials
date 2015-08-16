@@ -182,6 +182,10 @@ end
 
 ### Добавяне на възможност за изпращане на резултатите като POST
 
+> **Инструктор:**
+>
+> Какво става, когато се гласува в момента? Обърнете внимание на 404 страницата по подразбиране на Sinatra и на информацията на нея. Защо имаме грешка 404?
+
 Добавете следното във `voter.rb`:
 
 {% highlight ruby %}
@@ -214,6 +218,10 @@ end
 >
 > Обяснете как работи `POST`. Откъде идват нещата в `params`? Как се съпоставят полетата във формуляра с нещата в `params`? Как можем да ги използваме? Защо изобщо има различни HTTP методи като GET (read-only) и POST (променя неща на сървъра)?
 
+> **Бонус:**
+>
+> Добавете линк към страницата с резултатите и на началната страница, например до бутона за гласуване.
+
 ### Изнесете общия код в layout
 
 Създайте файл `layout.erb` в папката с изгледите `views`. Сложете там следния код:
@@ -238,6 +246,8 @@ end
 > **Инструктор:**
 >
 > Обяснете защо се прави тази операция. Разяснете, че другите изгледи се вмъкват на мястото на `yield` и не е нужно да носят информация за общия layout.
+>
+> Обяснете защо кръстихме файла `layout` и защо нещата автоматично сработиха, без да декларираме някъде, че това е нашият layout (за справка - документацията; принцип - convention over configuration).
 
 ### Показване на резултатите
 
@@ -270,29 +280,78 @@ end
 > **Инструктор:**
 >
 > Обяснете как работят таблиците в HTML. Обяснете как липсващите стойности от речника се броят като нула. Обяснете как така умножаваме текстов низ по число и какъв е резултатът. Припомнете `each` и речници. Обърнете внимание на алтернативното подреждане на елементи в речника (на един ред).
+>
+> Помислете заедно защо в момента гласовете не се отразяват изобщо. Съберете идеи какво би трябвало да се промени.
 
-### Persist the results using YAML::Store
+### Отчитане на гласовете
 
-Time for something new! Let’s store our CHOICES.
+Променете кода на `voter.rb` в действията `cast` и `results` така:
 
-Add the following to the top of `voter.rb`:
+{% highlight ruby %}
+post '/cast' do
+  @title = 'Благодарим за вашия глас!'
+  @vote  = params['vote']
+
+  if votes[@vote]
+    votes[@vote] = votes[@vote] + 1
+  else
+    votes[@vote] = 1
+  end
+
+  erb :cast
+end
+
+get '/results' do
+  @votes = votes
+  erb :results
+end
+{% endhighlight %}
+
+Добавете и следния код преди или след `CHOICES = {...}` във `voter.rb`:
+
+{% highlight ruby %}
+votes = {}
+{% endhighlight %}
+
+Спрете и стартирайте отново приложението. Уверете се, че гласовете вече се отчитат правилно. Може да дадете адреса до вашето приложение и на някой друг, за да гласува и той.
+
+> **Инструктор:**
+>
+> Обяснете промените. Защо имаме нужда от този `if` в `cast`? Каква е ролята на локалната променлива `votes`?
+>
+> _(Блоковете в Ruby виждат локалните променливи, дефинирани в closure-a над тях, а действията в Sinatra реално са Ruby блокове. Докато Sinatra работи, процесът е жив и локалната променлива се пази между request-и, като in-memory DB. Инстанционните (тези, започващи с `@`) променливи в действията – не се пазят между request-и.)_
+>
+> Обърнете внимание на факта, че като се спре приложението, данните се губят.
+
+### Трайно съхранение на гласовете с YAML::Store
+
+Време е за нещо вълнуващо! Трайно съхранение на данни (persistence). Обикновено това става в СУБД (системи за управление на бази данни), накратко наричани "бази данни". Примери за някои популярни СУБД са PostgreSQL, MySQL, MS SQL, Oracle и други.
+
+Ние няма да използваме цяла СУБД, а ще пазим данните от гласуването в обикновен текстов файл, който ще се обновява автоматично от нашето приложение. За целта ще ни послужи друга помощна библиотека, която е вградена в езика Ruby, но която трябва да заредим изрично.
+
+Добавете следното в началото на `voter.rb`:
 
 {% highlight ruby %}
 require 'yaml/store'
 {% endhighlight %}
 
-Add some more code into `voter.rb` – replace
-`post '/cast'` and `get '/results'` with the following:
+Пак във `voter.rb`, изтрийте ` заменете действията `post '/cast'` и `get '/results'` със следните версии:
 
 {% highlight ruby %}
 post '/cast' do
-  @title = 'Thanks for casting your vote!'
+  @title = 'Благодарим за вашия глас!'
   @vote  = params['vote']
   @store = YAML::Store.new 'votes.yml'
   @store.transaction do
-    @store['votes'] ||= {}
-    @store['votes'][@vote] ||= 0
-    @store['votes'][@vote] += 1
+    if @store['votes'] == nil
+      @store['votes'] = {}
+    end
+
+    if @store['votes'][@vote]
+      @store['votes'][@vote] = @store['votes'][@vote] + 1
+    else
+      @store['votes'][@vote] = 1
+    end
   end
   erb :cast
 end
@@ -305,25 +364,19 @@ get '/results' do
 end
 {% endhighlight %}
 
-__COACH__: Explain what YAML is.
+На този етап може да изтриете и реда `votes = {}` от `voter.rb`, който добавихме на предната стъпка.
 
+Спрете и пуснете отново приложението. Гласувайте и наблюдавайте резултатите. Вижте дали се запазват, ако спрете и пуснете приложението отново. Разгледайте новопоявилия се и автоматично създаден и попълван файл `votes.yml`. Би трябвало да се намира в същата папка, където е `voter.rb`.
 
-### See how the YAML file changes when votes are cast
+> **Инструктор:**
+>
+> Обяснете какво е YAML и как се грижи за обновяване на `votes.yml` файла и защо са ни `if`-овете.
 
-Let’s open `votes.yml`. And vote. And check again.
+## Играйте си с приложението
 
-__COACH__: There will be situations when one or more students will
-forget to quit the server before running it again. It’s a good
-opportunity to search the Internet for a solution. They don’t
-have to know everything about killing processes to find a solution.
+Опитайте да промените неща в приложението, за да видите какви ще са резултатите:
 
-__COACH__: In the end explain shortly the differences between Sinatra and Rails.
-
-## Play with the app
-
-Try to change things in the app in any way you see fit:
-
-* Add some additional logic to the views.
-* Redirect to the results outright.
-* Add other votings; how would the YAML file need to change?
-* Try to style the file in different ways.
+* Добавете допълнителна логика в изгледите.
+* Препращайте веднага към резултатите след гласуване. **Инструктор:** Обяснете защо това е добра практика. Например, опитайте да презаредите страницата веднага след гласуване.
+* Променете стилизирането на страницата по ваш вкус.
+* Помислете има ли проблеми от гледна точка на сигурност с вашето приложение? Ако има такива, имате ли идеи за възможни решения, дори само на концептуално ниво?
