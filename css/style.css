@@ -261,6 +261,14 @@ i.icon-small-browser {
   font-weight: bold;
 }
 
+blockquote {
+  color: #666;
+}
+
+blockquote p {
+  margin: 0.6em 0;
+}
+
 /* Correct padding on smaller screens */
 @media (max-width: 767px) {
  header, footer{
