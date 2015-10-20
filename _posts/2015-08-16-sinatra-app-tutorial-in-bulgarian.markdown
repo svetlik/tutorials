@@ -6,7 +6,7 @@ permalink: sinatra-app-bg
 
 # Уеб сайт с Ruby и Sinatra в Nitrous.io
 
-*Базирано на [това ръководство](http://guides.railsgirls.com/sinatra-app/) от Piotr Szotkowski, [@chastell](https://twitter.com/chastell)*
+*Базирано на [това ръководство](http://guides.railsgirls.com/sinatra-app/) от Piotr Szotkowski, [@chastell](https://twitter.com/chastell) [Код на ръководството в GitHub](https://github.com/rails-girls-sofia/tutorials/blob/gh-pages/_posts/2015-08-16-sinatra-app-tutorial-in-bulgarian.markdown).*
 
 Ръководството по-долу прави предположението, че имате регистрация в [Nitrous.io](https://nitrous.io).
 
