@@ -6,9 +6,17 @@ permalink: sinatra-app-bg
 
 # Уеб сайт с Ruby и Sinatra в Nitrous.io
 
-*Базирано на [това ръководство](http://guides.railsgirls.com/sinatra-app/) от Piotr Szotkowski, [@chastell](https://twitter.com/chastell) [Код на ръководството в GitHub](https://github.com/rails-girls-sofia/tutorials/blob/gh-pages/_posts/2015-08-16-sinatra-app-tutorial-in-bulgarian.markdown).*
+*Базирано на [това ръководство](http://guides.railsgirls.com/sinatra-app/) от Piotr Szotkowski ([@chastell](https://twitter.com/chastell)). [Код на ръководството в GitHub](https://github.com/rails-girls-sofia/tutorials/blob/gh-pages/_posts/2015-08-16-sinatra-app-tutorial-in-bulgarian.markdown).*
 
 Ръководството по-долу прави предположението, че имате регистрация в [Nitrous.io](https://nitrous.io).
+
+## Запознаване с инструментите
+
+Преди да започнем да правим каквото и да е, трябва да се запознаем с инструментите, които ще използваме. В нашия случай, това са обикновен текстов редактор (например Notepad) и интегрираната онлайн среда за разработка [Nitrous](https://nitrous.io).
+
+> **Инструктор:**
+>
+> Обяснете разликата между обикновен текстов файл и Word документ. Влезте с участничките в Nitrous и разяснете основните компоненти там, без да навлизате в твърде много детайли – къде стоят файловете, къде е този сървър. За command line ще стане дума по-късно.
 
 ## In HTML we trust - статичен сайт
 
