@@ -99,27 +99,3 @@ _Това ръководство се изпраща на участнички �
 ## Забавлявайте се
 
 Няма какво да се лъжем, това е най-важното! ;)
-
-### [Rails Girls Sofia 5.0](http://railsgirls.com/sofia2015-october)
-
-![Rails Girls Sofia 5.0 October 2015 Friday Hug](http://railsgirls.com/images/sofia/rails-girls-sofia-5.0-october-2015-friday-hug.jpg)
-
-### [Rails Girls Varna 1.0](http://railsgirls.com/varna-2015-august)
-
-![Rails Girls Varna 1.0 August 2015 Group Photo](http://railsgirls.com/images/varna/rails-girls-varna-1.0-august-2015-group-photo.jpg)
-
-### [Rails Girls Sofia 4.0](http://railsgirls.com/sofia2015-march)
-
-![Rails Girls Sofia 4.0 March 2015 Friday Hug](http://railsgirls.com/images/sofia/rails-girls-sofia-4.0-march-2015-friday-hug.jpg)
-
-### [Rails Girls Sofia 3.0](http://railsgirls.com/sofia2014-october)
-
-![Rails Girls Sofia 3.0 October 2014 Group Photo](http://railsgirls.com/images/rails-girls-sofia-3.0-group-photo.jpg)
-
-### [Rails Girls Sofia 2.0](http://railsgirls.com/sofia2014)
-
-![Rails Girls Sofia 2.0 March 2014 Friday Hug](http://railsgirls.com/images/rails-girls-sofia-2014-friday-hug.jpg)
-
-### [Rails Girls Sofia 1.0](http://railsgirls.com/sofia2013)
-
-![Rails Girls Sofia 1.0 June 2013 Friday Hug](https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-ash4/467543_461236493962144_14916432_o.jpg)
