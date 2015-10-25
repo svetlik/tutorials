@@ -72,15 +72,20 @@ table {
 }
 
 header {
-  height: 70px;
+  height: 80px;
   color: #fff;
-  padding-top: 50px;
+  padding-top: 30px;
   background: #d3360b;
 }
 
 header #logo {
-  width: 240px;
   float: left;
+  font-size: 30px;
+  color: #FFF;
+}
+
+header #logo:hover {
+  text-decoration: none;
 }
 
 nav {
