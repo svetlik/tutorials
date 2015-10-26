@@ -222,10 +222,10 @@ your_age = gets.to_i
 След този ред код, можем да съставим условие, което ще промени поведението на програмата в зависимост от входа на потребителя:
 
 {% highlight ruby %}
-if your_age < 20
-  puts "The future is yours!"
+if your_age < 13
+  puts "What do you want to become when you grow up?"
 else
-  puts "Have you seen a dinosaur?"
+  puts "Want to play some more?"
 end
 {% endhighlight %}
 
