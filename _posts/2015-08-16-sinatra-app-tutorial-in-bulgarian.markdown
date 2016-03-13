@@ -46,7 +46,7 @@ HTML е основният градивен блок на сайтовете. П
 > Примерна структура на HTML документ (този документ [го има и тук](http://railsgirls.hno3.org/dimitar)):
 >
 >     <!DOCTYPE html>
->         <html>
+>     <html>
 >         <head>
 >             <title>Dimitar Dimitrov</title>
 >         </head>
