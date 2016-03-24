@@ -102,8 +102,8 @@ D:
 cd "C:\Documents and Settings\Radostina"
 cd ..
 cd ..\..
-explore .
-explore http://facebook.com
+explorer .
+explorer http://facebook.com
 echo %cd%
 echo Hello world!
 dir
