@@ -455,20 +455,20 @@ end
 Ето и пример за цикъл, който ще се повтаря неограничен брой пъти, до възникването на определено условие:
 
 {% highlight ruby %}
-correct_name = "Radostina"
-name_entered = ""
+correct_password = "very-secret-password-that-no-one-else-knows"
+password_entered = ""
 
-while name_entered != correct_name
-  if name_entered != ""
-    puts "You entered " + name_entered + " but that is not the correct answer. Let's try again."
+while password_entered != correct_password
+  if password_entered != ""
+    puts "You entered " + password_entered + " but that is not the correct password. Please try again."
   end
 
-  puts "Who's your master now, Ruby?"
+  puts "Please enter your password."
   name_entered = gets.strip
 end
 {% endhighlight %}
 
-Чувствайте се свободни да заместите "Radostina" в примера по-горе с вашето име.
+Чувствайте се свободни да смените стойността на correct_password в примера по-горе.
 
 > **Инструктор:**
 >
