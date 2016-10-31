@@ -825,6 +825,7 @@ end
 
 {% highlight ruby %}
 get '/results' do
+  @title = 'Резултати'
   @votes = {'Happy' => 7, 'Слънце Луна' => 5}
   erb :results
 end
@@ -845,22 +846,22 @@ end
     <table class="table table-hover table-striped">
       <tr>
         <th>Happy</th>
-        <td><%= @votes.fetch('Happy', 0) %>
+        <td><%= @votes.fetch('Happy', 0) %></td>
         <td><%= '#' * (@votes.fetch('Happy', 0)) %></td>
       </tr>
       <tr>
         <th>Кривото</th>
-        <td><%= @votes.fetch('Кривото', 0) %>
+        <td><%= @votes.fetch('Кривото', 0) %></td>
         <td><%= '#' * (@votes.fetch('Кривото', 0)) %></td>
       </tr>
       <tr>
         <th>Мистър Пица</th>
-        <td><%= @votes.fetch('Мистър Пица', 0) %>
+        <td><%= @votes.fetch('Мистър Пица', 0) %></td>
         <td><%= '#' * (@votes.fetch('Мистър Пица', 0)) %></td>
       </tr>
       <tr>
         <th>Слънце Луна</th>
-        <td><%= @votes.fetch('Слънце Луна', 0) %>
+        <td><%= @votes.fetch('Слънце Луна', 0) %></td>
         <td><%= '#' * (@votes.fetch('Слънце Луна', 0)) %></td>
       </tr>
     </table>
@@ -902,6 +903,7 @@ get '/cast' do
 end
 
 get '/results' do
+  @title = 'Резултати'
   @votes = votes
   erb :results
 end
